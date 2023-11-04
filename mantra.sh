@@ -101,7 +101,7 @@ After=network-online.target
 
 [Service]
 User=$USER
-ExecStart=$(which mantrachaind) start
+ExecStart=$(which mantrachaind) start --home $HOME/.mantrachain
 Restart=on-failure
 RestartSec=3
 LimitNOFILE=65535
@@ -116,5 +116,5 @@ sudo systemctl enable mantrachaind
 sudo systemctl start mantrachaind
 
 echo '=============== SETUP FINISHED BANG ==================='
-echo -e 'To check logs: \e[1m\e[32mmantrachaind\e[0m'
+echo -e 'To check logs: \e[1m\e[32mjournalctl -fu mantrachaind -o cat\e[0m'
 echo -e "To check sync status: \e[1m\e[32mmantrachaind status 2>&1 | jq .SyncInfo\e[0m"
