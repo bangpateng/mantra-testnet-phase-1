@@ -66,6 +66,7 @@ sudo wget -P /usr/lib https://github.com/CosmWasm/wasmvm/releases/download/v1.3.
 sudo mv ./mantrachaind /usr/local/bin
 
 # config
+mantrachanid config chain-id $MANTRA_CHAIN_ID
 mantrachaind init $NODENAME --chain-id $MANTRA_CHAIN_ID
 mantrachaind config keyring-backend test
 
