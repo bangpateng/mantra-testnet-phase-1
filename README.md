@@ -9,6 +9,7 @@
 
 ##### Dokumentasi
 > - [Dokumentasi](https://docs.mantrachain.io/operate-a-node/initial-setup)
+> - [Explorer](https://testnet.itrocket.net/mantra/staking)
 
 
 ###  Persyaratan Perangkat Keras Minimum
@@ -22,5 +23,100 @@
 - Memory: 8 - 16GB
 - Storage: 500 - 1000 GB
 
-# **WAITING FOR UPDATE 8 NOVEMBER 2023**
+## 1. Instal Otomatis
+
+```
+wget -O mantra.sh https://raw.githubusercontent.com/bangpateng/mantra-testnet-phase-1/main/mantra.sh && chmod +x mantra.sh && ./mantra.sh
+```
+
+## 2. Check Log Sinkron
+
+```
+journalctl -fu mantrachaind -o cat
+```
+
+Biarkan Hingga Selesai Sinkron 15 Menitan Dah
+
+## 3. Check Status Node
+
+```
+mantrachaind status 2>&1 | jq .SyncInfo
+```
+
+Jika Status Sudah True Next Step Gawein Command Selanjutnya
+
+
+## 4. Load Sistem
+
+```
+source $HOME/.bash_profile
+```
+
+## 5. Buat Dompet/Wallet
+
+Jangan Lupa Simpan Address & Mnemonic Kalian
+
+```
+mantrachaind keys add $WALLET
+```
+
+(OPTIONAL/BISA SKIP) Untuk memulihkan dompet Anda menggunakan frase seed
+
+```
+mantrachaind keys add $WALLET --recover
+```
+
+## 6. Simpan Info Wallet
+
+```
+MANTRA_WALLET_ADDRESS=$(mantrachaind keys show $WALLET -a)
+MANTRA_VALOPER_ADDRESS=$(mantrachaind keys show $WALLET --bech val -a)
+echo 'export MANTRA_WALLET_ADDRESS='${MANTRA_WALLET_ADDRESS} >> $HOME/.bash_profile
+echo 'export MANTRA_VALOPER_ADDRESS='${MANTRA_VALOPER_ADDRESS} >> $HOME/.bash_profile
+source $HOME/.bash_profile
+```
+
+## 7. Claim Faucet 
+
+- Open Link : https://faucet.testnet.mantrachain.io/
+- Paste Address Kalian
+- Done
+
+## 8. Check Balance 
+
+```
+mantrachaind q bank balances $MANTRA_WALLET_ADDRESS
+```
+
+Kalau Balance Sudah Masuk, Baru Buat Validator
+
+## 9. Mambuat Validator
+
+```
+mantrachaind tx staking create-validator \
+  --amount 10000000uaum \
+  --from $WALLET \
+  --commission-max-change-rate "0.01" \
+  --commission-max-rate "0.2" \
+  --commission-rate "0.10" \
+  --min-self-delegation "1" \
+  --pubkey  $(mantrachaind tendermint show-validator) \
+  --moniker $NODENAME \
+  --chain-id $MANTRA_CHAIN_ID
+  --gas-adjustment 1.4 \
+  --gas=auto \
+  -y
+```
+
+## 10. Hapus Node
+
+```
+sudo systemctl stop mantrachaind
+sudo systemctl disable mantrachaind
+sudo rm /etc/systemd/system/mantrachaind.service
+sudo systemctl daemon-reload
+rm -f $(which mantrachaind)
+rm -rf .mantrachain
+rm -rf mantrachaind
+```
 
