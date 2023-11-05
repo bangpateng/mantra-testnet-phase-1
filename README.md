@@ -43,7 +43,7 @@ Biarkan Hingga Selesai Sinkron 15 Menitan Dah
 mantrachaind status 2>&1 | jq .SyncInfo
 ```
 
-Jika Status Sudah True Next Step Gawein Command Selanjutnya
+Jika Status Sudah `FALSE` Next Step Gawein Command Selanjutnya
 
 
 ## 4. Load Sistem
@@ -102,7 +102,7 @@ mantrachaind tx staking create-validator \
   --min-self-delegation "1" \
   --pubkey  $(mantrachaind tendermint show-validator) \
   --moniker $NODENAME \
-  --chain-id $MANTRA_CHAIN_ID
+  --chain-id $MANTRA_CHAIN_ID \
   --gas-adjustment 1.4 \
   --gas=auto \
   -y
