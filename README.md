@@ -108,7 +108,23 @@ mantrachaind tx staking create-validator \
   -y
 ```
 
-## 10. Hapus Node
+## 10. Update Foto Profil, Deskripsi Validator
+
+```
+mantrachaind tx staking edit-validator \
+--new-moniker=$NODENAME \
+--identity=<your_keybase_id> \
+--website="<your_website>" \
+--details="<your_validator_description>" \
+--chain-id=$MANTRA_CHAIN_ID \
+--from=$WALLET
+```
+
+- <your_keybase_id> Ganti Dengan ID Keybase Kalian
+- <your_website> Ganti Dengan Link Twitter atau Website Kalian
+- <your_validator_description> Ganti Dengan Deskripsi Node Kalian
+
+## 11. Hapus Node
 
 ```
 sudo systemctl stop mantrachaind
@@ -119,4 +135,37 @@ rm -f $(which mantrachaind)
 rm -rf .mantrachain
 rm -rf mantrachaind
 ```
+
+## Command Berguna Lainnya
+
+#### Delegate
+
+```
+mantrachaind tx staking delegate $VALOPER_ADDRESS 10000000uaum --from $WALLET --chain-id $MANTRA_CHAIN_ID --fees 5000uaum
+```
+
+#### Redelegate
+
+```
+mantrachaind tx staking redelegate $VALOPER_ADDRESS <dst-validator-operator-addr> 100000000uaum --from=$WALLET --chain-id=$MANTRA_CHAIN_ID
+```
+
+#### Withdraw Reward
+
+```
+mantrachaind tx distribution withdraw-all-rewards --from=$WALLET --chain-id=$MANTRA_CHAIN_ID
+```
+
+#### Unjail
+
+```
+mantrachaind tx slashing unjail \
+  --broadcast-mode=block \
+  --from=$WALLET \
+  --chain-id=$MANTRA_CHAIN_ID \
+  --gas=auto \
+  --gas-adjustment=1.4
+```
+
+
 
