@@ -105,10 +105,8 @@ mantrachaind tx staking create-validator \
   --pubkey  $(mantrachaind tendermint show-validator) \
   --moniker $NODENAME \
   --chain-id $MANTRA_CHAIN_ID \
-  --gas auto \
-  --gas-adjustment 1.5 \
-  --fees 50uaum \
-  -y
+  --gas auto --gas-adjustment 1.5 --fees 50uaum \
+ -y
 ```
 
 ## 10. Update Foto Profil, Deskripsi Validator
