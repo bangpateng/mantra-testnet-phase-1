@@ -135,7 +135,7 @@ fi
 
 sudo systemctl daemon-reload
 sudo systemctl enable mantrachaind
-sudo systemctl restart mantrachaind && sudo journalctl -u mantrachaind -f
+sudo systemctl restart mantrachaind
 
 echo '=============== SETUP FINISHED BANG ==================='
 echo -e 'To check logs: \e[1m\e[32mjournalctl -fu mantrachaind -o cat\e[0m'
