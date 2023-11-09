@@ -96,7 +96,7 @@ Kalau Balance Sudah Masuk, Baru Buat Validator
 
 ```
 mantrachaind tx staking create-validator \
-  --amount 10000000uaum \
+  --amount 1000000uaum \
   --from $WALLET \
   --commission-max-change-rate "0.01" \
   --commission-max-rate "0.2" \
