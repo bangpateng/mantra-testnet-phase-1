@@ -12,7 +12,7 @@ echo -e "\e[0m"
 echo "===================================================================" 
 
 echo -e '\e[36mGarapan :\e[39m' Mantra Testnet Phase 1
-echo -e '\e[36mAuthor :\e[39m' Bang Pateng
+echo -e '\e[36mAuthor :\e[39m' Bang Pateng x itrocket
 echo -e '\e[36mTelegram Group :\e[39m' @bangpateng_group
 echo -e '\e[36mTelegram Channel :\e[39m' @bangpateng_airdrop
 echo -e '\e[36mYoutube :\e[39m' Bang Pateng
@@ -40,11 +40,8 @@ sleep 2
 
 echo -e "\e[1m\e[32m1. Updating packages... \e[0m" && sleep 1
 # update
-sudo apt update && sudo apt install unzip && sudo apt upgrade -y 
-
-echo -e "\e[1m\e[32m2. Installing dependencies... \e[0m" && sleep 1
-# packages
-sudo apt install curl build-essential git wget jq make gcc tmux chrony -y
+sudo apt update && sudo apt upgrade -y
+sudo apt install curl git wget htop tmux build-essential jq make lz4 gcc unzip -y
 
 # install go
 if ! [ -x "$(command -v go)" ]; then
@@ -60,7 +57,7 @@ fi
 
 echo -e "\e[1m\e[32m3. Downloading and building binaries... \e[0m" && sleep 1
 # download and build binaries
-wget https://github.com/MANTRA-Finance/public/raw/main/mantrachain-testnet/mantrachaind-linux-amd64.zip
+wget https://testnet-files.itrocket.net/mantra/mantrachaind-linux-amd64.zip
 unzip mantrachaind-linux-amd64.zip
 sudo wget -P /usr/lib https://github.com/CosmWasm/wasmvm/releases/download/v1.3.0/libwasmvm.x86_64.so
 sudo mv ./mantrachaind /usr/local/bin
@@ -71,14 +68,13 @@ mantrachaind init $NODENAME --chain-id $MANTRA_CHAIN_ID
 mantrachaind config keyring-backend test
 
 # download genesis
-wget -O $HOME/.mantrachain/config/genesis.json https://raw.githubusercontent.com/MANTRA-Finance/public/main/mantrachain-testnet/genesis.json
+wget -O $HOME/.mantrachain/config/genesis.json https://testnet-files.itrocket.net/mantra/genesis.json
+wget -O $HOME/.mantrachain/config/addrbook.json https://testnet-files.itrocket.net/mantra/addrbook.json
 
 # set peers and seeds
-SEEDS=""
-sed -i -e "s|^seeds *=.*|seeds = \"$SEEDS\"|" $HOME/.mantrachain/config/config.toml
-peers="0e687ef17922361c1aa8927df542482c67fb7571@35.222.198.102:26656,114988f9a053f594ab9592beb79b924430d355ba@34.123.40.240:26656,c533d7ee2037ee6d382f773be04c5bbf27da7a29@34.70.189.2:26656,a435339f38ce3f973739a08afc3c3c7feb862dc5@35.192.223.187:26656"
-sed -i.bak -e "s/^persistent_peers *=.*/persistent_peers = \"$peers\"/" $HOME/.mantrachain/config/config.toml
-sed -i -e "s|^minimum-gas-prices *=.*|minimum-gas-prices = \"0.00uaum\"|" $HOME/.mantrachain/config/app.toml
+SEEDS="a9a71700397ce950a9396421877196ac19e7cde0@mantra-testnet-seed.itrocket.net:22656"
+PEERS="1a46b1db53d1ff3dbec56ec93269f6a0d15faeb4@mantra-testnet-peer.itrocket.net:22656,63763bfb78d296187754c367a9740e24730a7fc4@167.235.14.83:32656,64691a4202c1ad29a416b21ce21bfc9659783406@34.136.169.18:26656,d44eb6a1ea69263eb0a61bab354fb267396b27e1@34.70.189.2:26656,62cadc3da28e1a4785a2abf76c40f1c4e0eaeebd@34.123.40.240:26656,c4bec34390d2ab1004b9a25580c75e4743e033a1@65.108.72.253:22656,e6921a8a228e12ebab0ab70d9bcdb5364c5dece5@65.108.200.40:47656,2d2f8b62feee6b0fcbdec78d51d4ba9959e33c87@65.108.124.219:34656,4a22a9cbabe4313674d2058a964aef2863af9213@185.197.251.195:26656,c0828205f0dea4ef6feb61ee7a9e8f376be210f4@161.97.149.123:29656,30235fa097d100a14d2b534fdbf67e34e8d5f6cf@65.21.133.86:21656"
+sed -i -e "s/^seeds *=.*/seeds = \"$SEEDS\"/; s/^persistent_peers *=.*/persistent_peers = \"$PEERS\"/" $HOME/.mantrachain/config/config.toml
 
 # config pruning
 pruning="custom"
@@ -89,7 +85,6 @@ sed -i -e "s/^pruning *=.*/pruning = \"$pruning\"/" $HOME/.mantrachain/config/ap
 sed -i -e "s/^pruning-keep-recent *=.*/pruning-keep-recent = \"$pruning_keep_recent\"/" $HOME/.mantrachain/config/app.toml
 sed -i -e "s/^pruning-keep-every *=.*/pruning-keep-every = \"$pruning_keep_every\"/" $HOME/.mantrachain/config/app.toml
 sed -i -e "s/^pruning-interval *=.*/pruning-interval = \"$pruning_interval\"/" $HOME/.mantrachain/config/app.toml
-
 
 echo -e "\e[1m\e[32m4. Starting service... \e[0m" && sleep 1
 # create service
