@@ -54,7 +54,7 @@ source $HOME/.bash_profile
 
 ## 5. Buat Dompet/Wallet
 
-Jangan Lupa Simpan Address & Mnemonic Kalian
+Jangan Lupa Simpan Address & Mnemonic Kalian (Enter Keyring Phase Buat Password bebas)
 
 ```
 mantrachaind keys add $WALLET
@@ -75,6 +75,8 @@ echo 'export MANTRA_WALLET_ADDRESS='${MANTRA_WALLET_ADDRESS} >> $HOME/.bash_prof
 echo 'export MANTRA_VALOPER_ADDRESS='${MANTRA_VALOPER_ADDRESS} >> $HOME/.bash_profile
 source $HOME/.bash_profile
 ```
+
+Enter Keyring Phase Buat Password = Masukan Pass Yang Sebelumnya Udah di Buat
 
 ## 7. Claim Faucet 
 
