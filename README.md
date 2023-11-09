@@ -105,8 +105,9 @@ mantrachaind tx staking create-validator \
   --pubkey  $(mantrachaind tendermint show-validator) \
   --moniker $NODENAME \
   --chain-id $MANTRA_CHAIN_ID \
-  --gas-adjustment 1.4 \
-  --gas=auto \
+  --gas auto \
+  --gas-adjustment 1.5 \
+  --fees 50uaum \
   -y
 ```
 
